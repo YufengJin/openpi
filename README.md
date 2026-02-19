@@ -51,7 +51,17 @@ GIT_LFS_SKIP_SMUDGE=1 uv pip install -e .
 
 NOTE: `GIT_LFS_SKIP_SMUDGE=1` is needed to pull LeRobot as a dependency.
 
-**Docker**: As an alternative to uv installation, we provide instructions for installing openpi using Docker. If you encounter issues with your system setup, consider using Docker to simplify installation. See [Docker Setup](docs/docker.md) for more details.
+**Docker**: As an alternative to uv installation, we provide Docker images for development. Quick start:
+
+```bash
+# Build and start (headless)
+docker compose -f docker/docker-compose.headless.yaml up --build -d
+
+# Verify environment inside the container
+docker compose -f docker/docker-compose.headless.yaml run --rm openpi-dev --verify
+```
+
+See [Docker Setup](docs/docker.md) for full details (X11 GUI mode, policy server usage, troubleshooting, etc.).
 
 
 

@@ -1,0 +1,67 @@
+# X11 mode: supports GUI display (LIBERO, MuJoCo, etc.).
+#
+# Pre-requisite on host:  xhost +local:docker
+#
+# Usage:
+#   docker compose -f docker/docker-compose.x11.yaml up --build
+#   docker exec -it openpi-dev-gui bash
+#   docker compose -f docker/docker-compose.x11.yaml run --rm openpi-dev-gui --verify
+
+services:
+  openpi-dev-gui:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: openpi-dev:latest
+    container_name: openpi-dev-gui
+
+    restart: unless-stopped
+
+    tty: true
+    stdin_open: true
+
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - PYTHONUNBUFFERED=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - OPENPI_DATA_HOME=/openpi_assets
+      - IS_DOCKER=true
+
+    volumes:
+      - ..:/app
+      - ${OPENPI_DATA_HOME:-~/.cache/openpi}:/openpi_assets
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${HOME}/.Xauthority:/root/.Xauthority:rw
+
+    network_mode: host
+    ipc: host
+    pid: host
+
+    command: tail -f /dev/null
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu, compute, utility]
+
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      nproc: 65536
+      memlock: -1
+      stack: 67108864
+
+  # One-shot environment verification
+  verify-env:
+    extends:
+      service: openpi-dev-gui
+    container_name: openpi-verify-env-gui
+    profiles: ["test"]
+    restart: "no"
+    command: ["--verify"]
