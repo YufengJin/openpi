@@ -7,6 +7,7 @@ if [ -f "/app/pyproject.toml" ]; then
     cd /app
     GIT_LFS_SKIP_SMUDGE=1 uv sync 2>&1 | tail -5
     GIT_LFS_SKIP_SMUDGE=1 uv pip install -e . > /dev/null 2>&1
+    uv pip install "policy-websocket @ git+https://github.com/YufengJin/policy_websocket.git" > /dev/null 2>&1
     cd - > /dev/null
 fi
 

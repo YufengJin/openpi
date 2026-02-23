@@ -29,6 +29,11 @@ RUN apt-get update && apt-get install -y \
     curl \
     wget \
     procps \
+    lsof \
+    psmisc \
+    tmux \
+    vim \
+    x11-apps \
     && rm -rf /var/lib/apt/lists/*
 
 # Create venv and install dependencies (project itself installed at runtime via entrypoint)
