@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Policy Server (pi05_droid)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/policy_server.py",
+            "args": [
+                "--config", "pi05_droid",
+            ],
+            "justMyCode": false,
+            "cwd": "${workspaceFolder}",
+            "python": "/.venv/bin/python",
+            "console": "integratedTerminal"
+        }
+    ]
+}
