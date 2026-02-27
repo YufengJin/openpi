@@ -12,8 +12,8 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    image: openpi-dev:latest
-    container_name: openpi-dev-gui
+    image: openpi:latest
+    container_name: openpi-gui
 
     restart: unless-stopped
 
